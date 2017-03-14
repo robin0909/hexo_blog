@@ -87,19 +87,19 @@
 
 
 
-<meta name="description" content="概述geadle跟maven很类似的东西，但是他写起来比maven简洁，所以力荐使用gradle来构建我们的项目，而且gradle使用groovy开发的，所以gradle能够书写逻辑，但是maven这方便就很弱了，下面就来看看gradle。
-基本使用java插件就像maven里的插件一样，gradle也有插件概念，但是这里引入插件就很简洁，只需要一行。1apply plugin:&amp;apos;jav">
+<meta name="description" content="概述gradle跟maven是很类似的，但是他写起来比maven简洁，所以力荐使用gradle来构建我们的项目，而且gradle使用groovy开发的，所以gradle能够书写逻辑，但是maven这方便就很弱了，下面就来看看gradle。
+基本使用java插件就像maven里的插件一样，gradle也有插件概念，但是这里引入插件就很简洁，只需要一行。1apply plugin:&amp;apos;java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="gradle总结">
 <meta property="og:url" content="http://yoursite.com/2017/03/14/gradle总结/index.html">
 <meta property="og:site_name" content="杨冠林的博客">
-<meta property="og:description" content="概述geadle跟maven很类似的东西，但是他写起来比maven简洁，所以力荐使用gradle来构建我们的项目，而且gradle使用groovy开发的，所以gradle能够书写逻辑，但是maven这方便就很弱了，下面就来看看gradle。
-基本使用java插件就像maven里的插件一样，gradle也有插件概念，但是这里引入插件就很简洁，只需要一行。1apply plugin:&amp;apos;jav">
-<meta property="og:updated_time" content="2017-03-14T17:14:24.272Z">
+<meta property="og:description" content="概述gradle跟maven是很类似的，但是他写起来比maven简洁，所以力荐使用gradle来构建我们的项目，而且gradle使用groovy开发的，所以gradle能够书写逻辑，但是maven这方便就很弱了，下面就来看看gradle。
+基本使用java插件就像maven里的插件一样，gradle也有插件概念，但是这里引入插件就很简洁，只需要一行。1apply plugin:&amp;apos;java">
+<meta property="og:updated_time" content="2017-03-14T17:20:30.143Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="gradle总结">
-<meta name="twitter:description" content="概述geadle跟maven很类似的东西，但是他写起来比maven简洁，所以力荐使用gradle来构建我们的项目，而且gradle使用groovy开发的，所以gradle能够书写逻辑，但是maven这方便就很弱了，下面就来看看gradle。
-基本使用java插件就像maven里的插件一样，gradle也有插件概念，但是这里引入插件就很简洁，只需要一行。1apply plugin:&amp;apos;jav">
+<meta name="twitter:description" content="概述gradle跟maven是很类似的，但是他写起来比maven简洁，所以力荐使用gradle来构建我们的项目，而且gradle使用groovy开发的，所以gradle能够书写逻辑，但是maven这方便就很弱了，下面就来看看gradle。
+基本使用java插件就像maven里的插件一样，gradle也有插件概念，但是这里引入插件就很简洁，只需要一行。1apply plugin:&amp;apos;java">
 
 
 
@@ -344,7 +344,7 @@
       
 
       
-        <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>geadle跟maven很类似的东西，但是他写起来比maven简洁，所以力荐使用gradle来构建我们的项目，而且gradle使用groovy开发的，所以gradle能够书写逻辑，但是maven这方便就很弱了，下面就来看看gradle。</p>
+        <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>gradle跟maven是很类似的，但是他写起来比maven简洁，所以力荐使用gradle来构建我们的项目，而且gradle使用groovy开发的，所以gradle能够书写逻辑，但是maven这方便就很弱了，下面就来看看gradle。</p>
 <h1 id="基本"><a href="#基本" class="headerlink" title="基本"></a>基本</h1><h2 id="使用java插件"><a href="#使用java插件" class="headerlink" title="使用java插件"></a>使用java插件</h2><p>就像maven里的插件一样，gradle也有插件概念，但是这里引入插件就很简洁，只需要一行。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">apply plugin:&apos;java&apos;	//该插件会去src/main/java下找源代码，并打包生成build文件夹，里面有很多生成的资源</div></pre></td></tr></table></figure></p>
 <h2 id="设置gradle支持utf-8"><a href="#设置gradle支持utf-8" class="headerlink" title="设置gradle支持utf-8"></a>设置gradle支持utf-8</h2><p>gradle版本的差异，有可能存在不支持汉字，所以这里配置支持UTF-8，最好每次构建项目，都配置上。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[compileJava, compileTestJava]*.options*.encoding = &apos;UTF-8&apos;</div></pre></td></tr></table></figure></p>
 <h2 id="定制项目"><a href="#定制项目" class="headerlink" title="定制项目"></a>定制项目</h2><p>项目编译jdk版本设置，有了这个属性，更换不同版本jdk进行编译就变得非常简单，比如：我电脑安装的是jdk8，但是我为了打成jar包兼容低版本的项目，以前我们的做法是，在电脑上安装多个jdk然后修改环境变量进行切换，现在不用那么麻烦，你只需要讲下面的两个属性sourceCompatibility，targetCompatibility都设置1.7,这样即使真是环境是jdk8，但是编译后的class是jdk7的环境的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">version = 0.1		//项目版本</div><div class="line"></div><div class="line">//设置java版本</div><div class="line">sourceCompatibility = 1.7</div><div class="line">targetCompatibility = 1.7</div></pre></td></tr></table></figure></p>
@@ -463,15 +463,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2017/03/14/测试/" rel="next" title="测试">
+                <i class="fa fa-chevron-left"></i> 测试
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/03/14/测试/" rel="prev" title="测试">
-                测试 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
