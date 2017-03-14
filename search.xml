@@ -4,6 +4,21 @@
   
     
     <entry>
+      <title><![CDATA[测试]]></title>
+      <url>http://yoursite.com/2017/03/14/%E6%B5%8B%E8%AF%95/</url>
+      <content type="html"><![CDATA[<p> hello world! 开篇以hello world开始，大家就能知道我是什么职业。</p>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> categories </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[gradle总结]]></title>
       <url>http://yoursite.com/2017/03/14/gradle%E6%80%BB%E7%BB%93/</url>
       <content type="html"><![CDATA[<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>geadle跟maven很类似的东西，但是他写起来比maven简洁，所以力荐使用gradle来构建我们的项目，而且gradle使用groovy开发的，所以gradle能够书写逻辑，但是maven这方便就很弱了，下面就来看看gradle。</p>
@@ -85,21 +100,6 @@
         <tags>
             
             <tag> gradle </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[测试]]></title>
-      <url>http://yoursite.com/2017/03/14/%E6%B5%8B%E8%AF%95/</url>
-      <content type="html"><![CDATA[<p> hello world! 开篇以hello world开始，大家就能知道我是什么职业。</p>
-]]></content>
-      
-        
-        <tags>
-            
-            <tag> categories </tag>
             
         </tags>
         
