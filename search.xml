@@ -4,6 +4,38 @@
   
     
     <entry>
+      <title><![CDATA[AES加密解密技术]]></title>
+      <url>http://yoursite.com/2017/03/22/AES%E5%8A%A0%E5%AF%86%E8%A7%A3%E5%AF%86%E6%8A%80%E6%9C%AF/</url>
+      <content type="html"><![CDATA[<h1 id="AES加密解密技术"><a href="#AES加密解密技术" class="headerlink" title="AES加密解密技术"></a>AES加密解密技术</h1><hr>
+<p>一般都听说过MD5加密技术，MD5加密确实强大。但那是非对称加密技术，也就是说从密文变成明文不是那么容易。当我们需要一种对称性加密技术，MD5就不适用了。比如视频加密解密，此时就可以用ASE加密解密了。</p>
+<p>AES有更安全、灵活、有效率等优点，使用范围也很广，所以今天就讲讲AES加密如何使用，这里以java开展。</p>
+<h2 id="密钥"><a href="#密钥" class="headerlink" title="密钥"></a>密钥</h2><ol>
+<li>就是把明文转换为密文，密文转换为明文的一把钥匙。接下来我们会用ASE加密技术生成一把密钥。<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">public void generateSecretKey() &#123;</div><div class="line">    KeyGenerator keyGenerator = null;</div><div class="line">    FileOutputStream fos = null;</div><div class="line">    try &#123;</div><div class="line">        keyGenerator = KeyGenerator.getInstance(&quot;AES&quot;);</div><div class="line">        keyGenerator.init(128);//size</div><div class="line">        SecretKey secretKey = keyGenerator.generateKey();</div><div class="line">        byte[] keyBytes = secretKey.getEncoded();</div><div class="line">        fos = new FileOutputStream(&quot;key&quot;);</div><div class="line">        fos.write(keyBytes);</div><div class="line">    &#125; catch (Exception e) &#123;</div><div class="line">        e.printStackTrace();</div><div class="line">    &#125; finally &#123;</div><div class="line">        try &#123;</div><div class="line">            if (fos != null) &#123;</div><div class="line">                fos.close();</div><div class="line">            &#125;</div><div class="line">        &#125; catch (IOException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>keyGenerator.init(128); 这里是初始化密钥的长度。翻看底层代码，发现密钥支持的长度为：128, 192 or 256。我们这里是128位的长度，也就是16byte。</p>
+<p>补充： 刚学习的时候，看到网上有人把密钥（字节码）转变成字符串保存，然后用来加密解密的时候，很有可能出错。因为不同语言的原因，字符串转变成字节码就有可能不再是原来的字节码了。</p>
+<p>密钥生成后，在项目目录下可以找到一个key文件。</p>
+<h2 id="加密"><a href="#加密" class="headerlink" title="加密"></a>加密</h2><p>将明文和密钥一起，作为参数传入。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * ASE 加密</div><div class="line"> * @param str 明文</div><div class="line"> * @param key 秘钥</div><div class="line"> * @return</div><div class="line"> */</div><div class="line">public static String enStr(String str, byte[] key) &#123;</div><div class="line">    Cipher cipher = null;</div><div class="line">    SecretKey generateKey = null;</div><div class="line">    try &#123;</div><div class="line">        generateKey = new SecretKeySpec(key, &quot;AES&quot;);</div><div class="line">        cipher = Cipher.getInstance(&quot;AES/ECB/PKCS5Padding&quot;);</div><div class="line">        cipher.init(Cipher.ENCRYPT_MODE, generateKey);</div><div class="line">        byte[] resultBytes = cipher.doFinal(str.getBytes());</div><div class="line">        return Hex.encodeHexString(resultBytes);</div><div class="line">    &#125; catch (Exception e) &#123;</div><div class="line">        logger.error(&quot;AES加密出错&quot;, e);</div><div class="line">    &#125;</div><div class="line">    return null;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="解密"><a href="#解密" class="headerlink" title="解密"></a>解密</h2><p>解密就是加密的互逆过程，所以代码很类似。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"> /**</div><div class="line"> * 解密</div><div class="line"> * @param key 秘钥</div><div class="line"> * @param str 密文</div><div class="line"> * @return</div><div class="line"> */</div><div class="line">public static String deStr(String str, byte[] key) &#123;</div><div class="line">    Cipher cipher = null;</div><div class="line">    SecretKey generateKey = null;</div><div class="line">    try &#123;</div><div class="line">        generateKey = new SecretKeySpec(key, &quot;AES&quot;);</div><div class="line">        cipher = Cipher.getInstance(&quot;AES/ECB/PKCS5Padding&quot;);</div><div class="line">        cipher.init(Cipher.DECRYPT_MODE, generateKey);</div><div class="line">        byte[] result = Hex.decodeHex(str.toCharArray());</div><div class="line">        return new String(cipher.doFinal(result));</div><div class="line"></div><div class="line">    &#125; catch(Exception e) &#123;</div><div class="line">        logger.error(&quot;ASE解密出错&quot;, e);</div><div class="line">    &#125;</div><div class="line">    return null;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> 加密 </tag>
+            
+            <tag> 解密 </tag>
+            
+            <tag> AES </tag>
+            
+            <tag> java </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[vertx实现redis版session共享]]></title>
       <url>http://yoursite.com/2017/03/18/vertx%E5%AE%9E%E7%8E%B0redis%E7%89%88session%E5%85%B1%E4%BA%AB/</url>
       <content type="html"><![CDATA[<h1 id="vertx实现redis版session共享"><a href="#vertx实现redis版session共享" class="headerlink" title="vertx实现redis版session共享"></a>vertx实现redis版session共享</h1><hr>
@@ -132,9 +164,9 @@
         
         <tags>
             
-            <tag> gradle </tag>
-            
             <tag> java </tag>
+            
+            <tag> gradle </tag>
             
             <tag> 构建 </tag>
             
